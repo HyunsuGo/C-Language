@@ -20,6 +20,14 @@ void static_func(void);
 void add_ten(int a);
 void add_ten(int* p);
 int* sum1(int a, int b);
+void swap_ptr(char** ppa, char** ppb);
+void print_str(char** pps, int cnt);
+void print_ary(int(*)[4]);
+void func(int (*fp)(int, int));
+int sum(int, int);
+int sum2(int a, int b);
+int mul2(int a, int b);
+int max2(int a, int b);
 
 int a; //전역변수는 특별한 값으로 초기화하지 않아도 0으로 자동 초기화됨
 
@@ -382,7 +390,286 @@ int main2(void) {
 	p = sum1(10, 20);
 	printf("두 정수의 합 : %d\n", *p);
 
+
+	int score[3][4];
+	int tot;
+	double avg;
+	int i, j;
+
+	for (i = 0; i < 3; i++) {
+		printf("네 과목의 점수 입략 : ");
+		for (j = 0; j < 4; j++) {
+			scanf("%d", &score[i][j]);
+		}
+	}
+
+	for (i = 0; i < 3; i++) {
+		tot = 0;
+		for (j = 0; j < 4; j++) {
+			tot += score[i][j];
+		}
+		avg = tot / 4.0;
+		printf("총점 : %d, 평균 : %.2lf\n", tot, avg);
+	}
+
+
+	int num1[3][4] = { {1,2,3,4}, {5,6,7,8},{9,10,11,12} };
+	int num2[3][4] = { {1}, {5,6}, {9,10,11} };	//행초깃값 생략하면 남은 요소는 0으로 자동 초기화
+	int num3[][4] = { {1}, {2,3}, {4,5,6} };	//행의수를 생략할경우 괄호의 개수로 행의 수를 결정함
+	int num4[3][4] = { 1,2,3,4,5,6,7,8,9,10,11,12 };	//한행의 크기는 열의수로 결정하므로 열의개수는 생략 불가능
+	int num5[3][4] = { 1,2,3,4,5,6 };
+	int num6[][4] = { 1,2,3,4,5,6 };
+	int i, j;
+
+	for (i = 0; i < 3; i++) {
+		for (j = 0; j < 4; j++) {
+			printf("%5d", num1[i][j]);
+		}
+		printf("\n");
+	}
+
+
+	char animal[5][20];
+	int i;
+	int count;
+
+	count = sizeof(animal) / sizeof(animal[0]);
+	for (i = 0; i < count; i++) {
+		scanf("%s", animal[i]);
+	}
+
+	for (i = 0; i < count; i++) {
+		printf("%s, ", animal[i]);
+	}
+
+
+	char animal1[5][10] = {
+		{'c', 'a', 't', '\0'},
+		{'h', 'o', 'r', 's', 'e', '\0'},
+		{'d', 'o', 'g', '\0'},
+		{'t', 'i', 'g', 'e', 'r', '\0'},
+		{'e', 'l', 'e', 'p', 'h', 'a', 'n', 't', '\0'}
+	};
+
+	//남는 공간은 널문자로 채워짐
+	char animal2[][10] = { "cat", "horse", "dog", "tiger", "elephant" };
+	int i;
+
+	for (i = 0; i < 5; i++) {
+		printf("%s ", animal1[i]);
+	}
+	printf("\n");
+	for (i = 0; i < 5; i++) {
+		printf("%s ", animal2[i]);
+	}
+
+	int s[2][3][4] = {
+		{ {72, 80, 95, 60}, {68,98,83,90}, {75,72,84,90} },
+		{ {66,85,90,99}, {95, 92, 88, 95}, {43,72,56,75} }
+	};
+
+	int i, j, k;
+
+	for (i = 0; i < 2; i++) {
+		printf("%d반 점수...\n", i + 1);
+		for (j = 0; j < 3; j++) {
+			for (k = 0; k < 4; k++) {
+				printf("%5d", s[i][j][k]);
+			}
+			printf("\n");
+		}
+	}
+
+
+	char* pary[5];
+	int i;
+
+	pary[0] = "dog";
+	pary[1] = "elephant";
+	pary[2] = "horse";
+	pary[3] = "tiger";
+	pary[4] = "lion";
+
+	for (i = 0; i < 5; i++) {
+		printf("%s\n", pary[i]);
+	}
+
+	char* pary[5] = { "dog", "elephant", "horse", "tiger", "lion" };
+	char animal[5][20] = { "dog", "elephant", "horse", "tiger", "lion" };
+
+	//포인터 배열이 1차원 배열을 연결하면 2차원 배열처럼 사용가능
+	int ary1[4] = { 1,2,3,4 };
+	int ary2[4] = { 11, 12, 13,14 };
+	int ary3[4] = { 21, 22, 23, 24 };
+	int* pary[3] = { ary1, ary2, ary3 };
+	int i, j;
+
+	for (i = 0; i < 3; i++) {
+		for (j = 0; j < 4; j++) {
+			printf("%5d", pary[i][j]);
+		}
+		printf("\n");
+	}
+
+
+	int a = 10;
+	int* pi;
+	int** ppi;
+
+	pi = &a;
+	ppi = &pi;
+
+	printf("--------------------------------------------\n");
+	printf("변수    변수값    &연산     *연산    **연산\n");
+	printf("--------------------------------------------\n");
+	printf(" a   %10d %10u \n", a, &a);
+	printf(" pi  %10u %10u %10d \n", pi, &pi, *pi);
+	printf(" ppi %10u %10u %10u %10u \n", ppi, &ppi, *ppi, **ppi);
+	printf("--------------------------------------------\n");
+
+	
+	char* pa = "success";
+	char* pb = "failure";
+
+	printf("pa -> %s, pb -> %s\n", pa, pb);
+	swap_ptr(&pa, &pb);
+	printf("pa -> %s, pb -> %s\n", pa, pb);
+
+
+	char* ptr_ary[] = {"eagle", "tiger", "lion", "squirrel"};
+	int count;
+
+	count = sizeof(ptr_ary) / sizeof(ptr_ary[0]);
+	print_str(ptr_ary, count);
+
+	
+	int ary[5];
+
+	printf("ary의 값 : %u\n", ary);
+	printf("ary의 주소 : %u\n", &ary);
+
+	printf("ary + 1 : %u\n", ary + 1); //ary는 첫번째 요소를 가리킴(1의 크기는 4)
+	printf("&ary + 1 : %u\n", &ary + 1); //&ary는 배열 전체를 가리킴(1의 크기는 20)
+
+
+	int ary[3][4] = { {1,2,3,4}, {5,6,7,8}, {9,10,11,12} };
+	int(*pa1)[4];
+	int i, j;
+
+	pa1 = ary;
+	for (i = 0; i < 3; i++) {
+		for (j = 0; j < 4; j++) {
+			printf("%5d", pa1[i][j]);
+		}
+		printf("\n");
+	}
+
+	int ary[3][4] = { {1,2,3,4},{5,6,7,8},{9,10,11,12} };
+	print_ary(ary);
+
+	
+	//2차원 배열 int ary[3][4];에서 다음주소는 모두 같은 값을 가짐
+	int ary[3][4];
+	&ary;		//2차원 배열 전체의 주소
+	ary;		//첫 번째 부분배열의 주소
+	&ary[0];	//첫 번째 부분배열의 주소
+	ary[0];		//첫 번째 부분배열의 첫 번째 배열 요소의 주소
+	&ary[0][0];	//첫 번째 부분배열의 첫 번째 배열 요소의 주소
+	
+	sizeof(ary);		//배열 전체의 크기 48바이트
+	sizeof(&ary[0]);	//주소의 크기 4바이트
+	sizeof(ary[0]);		//부분배열 전체의 크기 16바이트
+	sizeof(&ary[0][0]);	//주소의 크기 4바이트
+
+
+	int (*fp)(int, int);
+	int res;
+
+	fp = sum;
+	res = fp(10, 20);
+	printf("result : %d\n", res);
+	
+
+	int sel;
+	printf("1. 두 정수의 합\n");
+	printf("2. 두 정수의 곱\n");
+	printf("3. 두 정수 중에서 큰 값 계산\n");
+	printf("원하는 작업을 선택하세요 : ");
+	scanf("%d", &sel);
+
+	switch (sel) {
+	case 1: func(sum2); break;
+	case 2: func(mul2); break;
+	case 3: func(max2); break;
+	}
+	
+
+	int a = 10;
+	double b = 3.5;
+	void* vp;	//void 포인터를 사용할 때는 원하는 형태로 변환하여 사용
+
+	vp = &a;
+	printf("a : %d\n", *(int*)vp);
+
+	vp = &b;
+	printf("b : %.1lf\n", *(double*)vp);
+	(int*)vp + 1;	//형 변환 후에 정수를 더함
+	int* pi = (int*)vp;	//명시적으로 형변환하여 대입하는 것이 좋음
+
 	return 0;
+}
+
+void func(int (*fp)(int, int)) {
+	int a, b;
+	int res;
+
+	printf("두 정수값을 입력하세요 : ");
+	scanf("%d%d", &a, &b);
+	res = fp(a, b);
+	printf("결과값은 : %d\n", res);
+}
+
+int sum2(int a, int b) {
+	return (a + b);
+}
+
+int mul2(int a, int b) {
+	return (a * b);
+}
+
+int max2(int a, int b) {
+	if (a > b) return a;
+	else return b;
+}
+
+int sum(int a, int b) {
+	return (a + b);
+}
+
+
+void print_ary(int(*pa)[4]) {
+	int i, j;
+	for (i = 0; i < 3; i++) {
+		for (j = 0; j < 4; j++) {
+			printf("%5d", pa[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void print_str(char** pps, int cnt) {
+	int i;
+	
+	for (i = 0; i < cnt; i++) {
+		printf("%s\n", pps[i]);
+	}
+}
+
+void swap_ptr(char** ppa, char** ppb) {
+	char* pt;
+	pt = *ppa;
+	*ppa = *ppb;
+	*ppb = pt;
 }
 
 int* sum1(int a, int b) {
